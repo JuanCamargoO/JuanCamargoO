@@ -82,7 +82,7 @@
             ></a-entity>
         </a-marker>
 
-        <a-marker type="pattern" url="https://raw.githubusercontent.com/JuanCamargoO/juancamargoo/main/cod-object-3.patt">
+        <a-marker type="pattern" url="https://raw.githubusercontent.com/JuanCamargoO/juancamargoo/main/cod-object-3.patt ">
             <a-entity
                 gltf-model="#object-model-3"
                 scale="0.5 0.5 0.5"
@@ -194,6 +194,16 @@
 
                 if (isWithinAllowedArea(userLat, userLng)) {
                     mediaButtons.style.display = 'block';
+                    // Ag regar permiso de acceso a la cámara
+                    navigator.mediaDevices.getUserMedia({ video: true })
+                        .then(stream => {
+                            const video = document.querySelector('a-scene').querySelector('video');
+                            video.srcObject = stream;
+                            video.play();
+                        })
+                        .catch(error => {
+                            console.error('Error al acceder a la cámara:', error);
+                        });
                 } else {
                     document.querySelector('a-scene').style.display = 'none';
                     outsideAreaMessage.style.display = 'flex';
