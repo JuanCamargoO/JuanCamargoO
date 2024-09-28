@@ -195,7 +195,7 @@
                 if (isWithinAllowedArea(userLat, userLng )) {
                     mediaButtons.style.display = 'block';
                     // Solicitar permiso de acceso a la cámara
-                    navigator.mediaDevices.getUserMedia({ video: true })
+                    navigator.mediaDevices.getUserMedia({ video: true, audio: true })
                         .then(stream => {
                             const video = document.querySelector('a-scene').querySelector('video');
                             video.srcObject = stream;
