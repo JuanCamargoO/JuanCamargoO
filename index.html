@@ -64,12 +64,12 @@
 
     <script>
         // Geolocation and distance calculation
-        const targetLat = 8.950770; // Set your target latitude
-        const targetLon = -79.670572; // Set your target longitude
+        const targetLat = 8.950770;
+        const targetLon = -79.670572;
         const maxDistance = 50; // Maximum distance in meters
 
         function calculateDistance(lat1, lon1, lat2, lon2) {
-            const R = 6371e3; // Earth's radius in meters
+            const R = 6371e3;
             const φ1 = lat1 * Math.PI / 180;
             const φ2 = lat2 * Math.PI / 180;
             const Δφ = (lat2 - lat1) * Math.PI / 180;
@@ -97,48 +97,50 @@
         // Check location every 30 seconds
         setInterval(checkLocation, 30000);
 
-        // Photo and video capture
-        const photoButton = document.getElementById('photoButton');
-        const videoButton = document.getElementById('videoButton');
-        let mediaRecorder;
-        let recordedChunks = [];
+        // Wait for the scene to load before setting up UI functionality
+        document.querySelector('a-scene').addEventListener('loaded', function () {
+            const scene = this;
+            const photoButton = document.getElementById('photoButton');
+            const videoButton = document.getElementById('videoButton');
+            let mediaRecorder;
+            let recordedChunks = [];
 
-        photoButton.addEventListener('click', function() {
-            const scene = document.querySelector('a-scene');
-            const data = scene.components.screenshot.getCanvas('perspective').toDataURL('image/png');
-            const link = document.createElement('a');
-            link.href = data;
-            link.download = 'ar-screenshot.png';
-            link.click();
-        });
+            photoButton.addEventListener('click', function() {
+                const data = scene.components.screenshot.getCanvas('perspective').toDataURL('image/png');
+                const link = document.createElement('a');
+                link.href = data;
+                link.download = 'ar-screenshot.png';
+                link.click();
+            });
 
-        videoButton.addEventListener('click', function() {
-            if (mediaRecorder && mediaRecorder.state === 'recording') {
-                mediaRecorder.stop();
-                videoButton.textContent = 'Record Video';
-            } else {
-                const stream = document.querySelector('a-scene').components.screenshot.getCanvas('perspective').captureStream(30);
-                mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+            videoButton.addEventListener('click', function() {
+                if (mediaRecorder && mediaRecorder.state === 'recording') {
+                    mediaRecorder.stop();
+                    videoButton.textContent = 'Record Video';
+                } else {
+                    const stream = scene.components.screenshot.getCanvas('perspective').captureStream(30);
+                    mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
 
-                mediaRecorder.ondataavailable = function(event) {
-                    if (event.data.size > 0) {
-                        recordedChunks.push(event.data);
-                    }
-                };
+                    mediaRecorder.ondataavailable = function(event) {
+                        if (event.data.size > 0) {
+                            recordedChunks.push(event.data);
+                        }
+                    };
 
-                mediaRecorder.onstop = function() {
-                    const blob = new Blob(recordedChunks, { type: 'video/webm' });
-                    const url = URL.createObjectURL(blob);
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.download = 'ar-video.webm';
-                    link.click();
-                    recordedChunks = [];
-                };
+                    mediaRecorder.onstop = function() {
+                        const blob = new Blob(recordedChunks, { type: 'video/webm' });
+                        const url = URL.createObjectURL(blob);
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.download = 'ar-video.webm';
+                        link.click();
+                        recordedChunks = [];
+                    };
 
-                mediaRecorder.start();
-                videoButton.textContent = 'Stop Recording';
-            }
+                    mediaRecorder.start();
+                    videoButton.textContent = 'Stop Recording';
+                }
+            });
         });
     </script>
 </body>
