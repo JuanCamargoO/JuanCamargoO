@@ -1,155 +1,128 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebAR Application</title>
+    <title>Experiencia WebAR</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-    <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
+    <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.7.2/aframe/build/aframe-ar.min.js"></script>
     <style>
-        .buttons {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 5em;
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            height: 100%;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
+        }
+        h2 {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            color: white;
+            text-shadow: 1px 1px 5px black;
+        }
+        #buttons-container {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
             z-index: 10;
         }
-        .buttons button {
-            padding: 0.25em;
-            border-radius: 4px;
-            border: none;
-            background: white;
-            color: black;
-            width: 4em;
-            height: 2em;
-            margin: 0 0.5em;
+        #photoButton, #videoButton {
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        @media (max-width: 600px) {
+            #photoButton, #videoButton {
+                font-size: 12px;
+                padding: 8px 15px;
+            }
         }
     </style>
 </head>
-<body style="margin: 0; overflow: hidden;">
-    <div class="buttons">
-        <button id="takePhoto">Photo</button>
-        <button id="startStopVideo">Video</button>
-    </div>
+<body>
+    <!-- Mensaje para autorizar la cámara -->
+    <h2>Autoriza el uso de la cámara para vivir la experiencia en realidad aumentada</h2>
 
-    <a-scene
-        vr-mode-ui="enabled: false"
-        embedded
-        arjs="sourceType: webcam; debugUIEnabled: false;"
-    >
-        <a-assets>
-            <a-asset-item id="model1" src="model1.glb"></a-asset-item>
-            <a-asset-item id="model2" src="model2.glb"></a-asset-item>
-            <a-asset-item id="model3" src="model3.glb"></a-asset-item>
-            <a-asset-item id="model4" src="model4.glb"></a-asset-item>
-            <a-asset-item id="model5" src="model5.glb"></a-asset-item>
-            <a-asset-item id="model6" src="model6.glb"></a-asset-item>
-        </a-assets>
+    <!-- Contenedor de la experiencia AR -->
+    <a-scene vr-mode-ui="enabled: false" embedded arjs="sourceType: webcam;">
 
-        <a-marker type="pattern" url="marker1.patt">
-            <a-entity gltf-model="#model1" scale="0.1 0.1 0.1"></a-entity>
-        </a-marker>
-        <a-marker type="pattern" url="marker2.patt">
-            <a-entity gltf-model="#model2" scale="0.1 0.1 0.1"></a-entity>
-        </a-marker>
-        <a-marker type="pattern" url="marker3.patt">
-            <a-entity gltf-model="#model3" scale="0.1 0.1 0.1"></a-entity>
-        </a-marker>
-        <a-marker type="pattern" url="marker4.patt">
-            <a-entity gltf-model="#model4" scale="0.1 0.1 0.1"></a-entity>
-        </a-marker>
-        <a-marker type="pattern" url="marker5.patt">
-            <a-entity gltf-model="#model5" scale="0.1 0.1 0.1"></a-entity>
-        </a-marker>
-        <a-marker type="pattern" url="marker6.patt">
-            <a-entity gltf-model="#model6" scale="0.1 0.1 0.1"></a-entity>
+        <!-- Experiencia 1 con Pattern 1 -->
+        <a-marker preset="custom" type="pattern" url="patron1.patt">
+            <a-gltf-model src="experiencia1.glb" position="0 0 0" scale="0.5 0.5 0.5"></a-gltf-model>
         </a-marker>
 
-        <a-entity camera></a-entity>
+        <!-- Experiencia 2 con Pattern 2 -->
+        <a-marker preset="custom" type="pattern" url="patron2.patt">
+            <a-gltf-model src="experiencia2.glb" position="0 0 0" scale="0.5 0.5 0.5"></a-gltf-model>
+        </a-marker>
+
+        <!-- Experiencia 3 con Pattern 3 -->
+        <a-marker preset="custom" type="pattern" url="patron3.patt">
+            <a-gltf-model src="experiencia3.glb" position="0 0 0" scale="0.5 0.5 0.5"></a-gltf-model>
+        </a-marker>
+
+        <!-- Experiencia 4 con Pattern 4 -->
+        <a-marker preset="custom" type="pattern" url="patron4.patt">
+            <a-gltf-model src="experiencia4.glb" position="0 0 0" scale="0.5 0.5 0.5"></a-gltf-model>
+        </a-marker>
+
+        <!-- Experiencia 5 con Pattern 5 -->
+        <a-marker preset="custom" type="pattern" url="patron5.patt">
+            <a-gltf-model src="experiencia5.glb" position="0 0 0" scale="0.5 0.5 0.5"></a-gltf-model>
+        </a-marker>
+
+        <!-- Experiencia 6 con Pattern 6 -->
+        <a-marker preset="custom" type="pattern" url="patron6.patt">
+            <a-gltf-model src="experiencia6.glb" position="0 0 0" scale="0.5 0.5 0.5"></a-gltf-model>
+        </a-marker>
+
+        <!-- Botones para tomar fotos y grabar videos -->
+        <div id="buttons-container">
+            <button id="photoButton">Tomar Foto</button>
+            <button id="videoButton">Grabar Video</button>
+        </div>
     </a-scene>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const photoButton = document.getElementById('takePhoto');
-            const videoButton = document.getElementById('startStopVideo');
-            let mediaRecorder;
-            let recordedChunks = [];
+        // Verificación de compatibilidad del navegador para Geolocalización y AR.js
+        if (!navigator.geolocation) {
+            alert("Tu navegador no soporta geolocalización. Por favor, utiliza un navegador compatible.");
+        }
 
-            // Geolocation and distance calculation
-            const targetLat = 8.950770;
-            const targetLon = -79.670572;
-            const maxDistance = 50; // Maximum distance in meters
-
-            function calculateDistance(lat1, lon1, lat2, lon2) {
-                const R = 6371e3;
-                const φ1 = lat1 * Math.PI / 180;
-                const φ2 = lat2 * Math.PI / 180;
-                const Δφ = (lat2 - lat1) * Math.PI / 180;
-                const Δλ = (lon2 - lon1) * Math.PI / 180;
-
-                const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-                          Math.cos(φ1) * Math.cos(φ2) *
-                          Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
-                const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-                return R * c;
-            }
-
-            function checkLocation() {
-                if ("geolocation" in navigator) {
-                    navigator.geolocation.getCurrentPosition(function(position) {
-                        const distance = calculateDistance(position.coords.latitude, position.coords.longitude, targetLat, targetLon);
-                        if (distance > maxDistance) {
-                            window.location.href = "https://www.youtube.com/watch?v=YOUR_YOUTUBE_VIDEO_ID";
-                        }
-                    });
-                }
-            }
-
-            // Check location every 30 seconds
-            setInterval(checkLocation, 30000);
-
-            photoButton.addEventListener('click', function() {
-                const scene = document.querySelector('a-scene');
-                const img = scene.components.screenshot.getCanvas('perspective').toDataURL('image/png');
-                const link = document.createElement('a');
-                link.href = img;
-                link.download = 'ar-screenshot.png';
-                link.click();
-            });
-
-            videoButton.addEventListener('click', function() {
-                const scene = document.querySelector('a-scene');
-                if (!mediaRecorder || mediaRecorder.state === 'inactive') {
-                    const stream = scene.components.screenshot.getCanvas('perspective').captureStream(25);
-                    mediaRecorder = new MediaRecorder(stream, {mimeType: 'video/webm'});
-                    mediaRecorder.ondataavailable = (event) => {
-                        if (event.data.size > 0) {
-                            recordedChunks.push(event.data);
-                        }
-                    };
-                    mediaRecorder.onstop = () => {
-                        const blob = new Blob(recordedChunks, {type: 'video/webm'});
-                        const url = URL.createObjectURL(blob);
-                        const link = document.createElement('a');
-                        link.href = url;
-                        link.download = 'ar-video.webm';
-                        link.click();
-                        recordedChunks = [];
-                    };
-                    mediaRecorder.start();
-                    videoButton.textContent = 'Stop';
-                } else {
-                    mediaRecorder.stop();
-                    videoButton.textContent = 'Video';
-                }
-            });
+        // Función para obtener la geolocalización del usuario
+        navigator.geolocation.getCurrentPosition(success, error, {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
         });
-    </script>
-</body>
-</html>
+
+        function success(position) {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            const rango = 0.02; // Rango de 20 metros
+
+            // Verifica la distancia a las coordenadas específicas
+            if (distance(lat, lng, 8.950778, -79.670555) > rango) {
+                // Redirige a YouTube si se sale del rango
+                alert("Estás fuera del rango de la experiencia. Serás redirigido.");
+                window.location.href = "https://www.youtube.com/ficticio";
+            }
+        }
+
+        function error(err) {
+            console.warn(`ERROR(${err.code}): ${err.message}`);
+            alert("No se pudo obtener la geolocalización. La experiencia no podrá ser vivida correctamente.");
+        }
+
+        // Función para calcular la distancia entre dos coordenadas (haversine formula)
+        function distance(lat1, lon1, lat2, lon2) {
+            const R = 6371; // Radio de la tierra en km
+            const dLat = deg2ra
