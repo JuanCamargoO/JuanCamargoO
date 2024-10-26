@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebAR Experience</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.7.2/aframe/build/aframe-ar.min.js"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        #record-btn {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            z-index: 1000;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- Botón para grabar -->
+    <button id="record-btn">Iniciar Grabación</button>
+
+    <!-- Escena de realidad aumentada -->
+    <a-scene embedded arjs="sourceType: webcam; sourceWidth: 640; sourceHeight: 480; trackingMethod: best;">
+        <!-- Entidades AR (los videos sobre las imágenes) -->
+        
+        <!-- Primer marcador -->
+        <a-marker preset="custom" url="pattern-vid1.patt">
+            <a-video src="#video1" width="3" height="2" position="0 1 0"></a-video>
+        </a-marker>
+
+        <!-- Segundo marcador -->
+        <a-marker preset="custom" url="pattern-vid2.patt">
+            <a-video src="#video2" width="3" height="2" position="0 1 0"></a-video>
+        </a-marker>
+
+        <!-- Cámara personalizada para ajustar el zoom -->
+        <a-entity camera position="0 0 5" far="10000" focalLength="10"></a-entity>
+    </a-scene>
+
+    <!-- Videos ocultos que se proyectan en AR -->
+    <video id="video1" src="video1.mp4" loop="true" autoplay="true" style="display:none"></video>
+    <video id="video2" src="video2.mp4" loop="true" autoplay="true" style="display:none"></video>
+
+    <script>
+        // Funcionalidad para grabar la pantalla de la experiencia
+        const recordButton = document.getElementById('record-btn');
+        let mediaRecorder;
+        let chunks = [];
+
+        recordButton.addEventListener('click', () => {
+            if (!mediaRecorder || mediaRecorder.state === "inactive") {
+                navigator.mediaDevices.getDisplayMedia({ video: true }).then(stream => {
+                    mediaRecorder = new MediaRecorder(stream);
+                    mediaRecorder.start();
+
+                    recordButton.textContent = "Grabando...";
+
+                    mediaRecorder.ondataavailable = (event) => {
+                        chunks.push(event.data);
+                    };
+
+                    mediaRecorder.onstop = () => {
+                        const blob = new Blob(chunks, { 'type': 'video/mp4' });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'experiencia-ar.mp4';
+                        a.click();
+                    };
+
+                    setTimeout(() => {
+                        mediaRecorder.stop();
+                        recordButton.textContent = "Iniciar Grabación";
+                    }, 10000); // Graba por 10 segundos
+                });
+            }
+        });
+    </script>
+</body>
+</html>
